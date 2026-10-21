@@ -25,7 +25,7 @@ const translations = {
     projects: {
       eyebrow: "MEUS MELHORES PROJETOS", title: "Projetos <em>selecionados</em>",
       intro: "Alguns dos trabalhos que representam minha atuação em desenvolvimento de software, produto digital e interfaces.",
-      imagePending: "Imagem do projeto em breve", futureImage: "Espaço reservado para novo projeto", linkPending: "Link em breve ↗", caseLink: 'Abrir case <span class="case-arrow" aria-hidden="true">↗</span>',
+      imagePending: "Imagem do projeto em breve", futureImage: "Espaço reservado para novo projeto", linkPending: "Em desenvolvimento", caseLink: 'Abrir case <span class="case-arrow" aria-hidden="true">↗</span>',
       tagsAria: "Tecnologias utilizadas",
       findall: { category: "PROJETO CONFIDENCIAL", label: "PLATAFORMA DE MONITORAMENTO", title: "FindAll", description: "Plataforma voltada ao monitoramento e à rastreabilidade de ativos, integrando tecnologias de IoT para apoiar a coleta, o processamento e a visualização de informações operacionais. O projeto envolve integração entre dispositivos e sistemas, com foco na confiabilidade dos dados e na eficiência dos processos.", imageAlt: "Logo da plataforma FindAll", caseLink: 'Abrir case <span class="case-arrow" aria-hidden="true">↗</span>', cardLink: "Abrir estudo de caso do FindAll" },
       workstation: { category: "PROJETO CONFIDENCIAL | AUTOMAÇÃO", label: "AUTOMAÇÃO DE AMBIENTE WINDOWS", title: "Workstation Kit", description: "Ferramenta em PowerShell para automatizar a configuração e padronização de ambientes Windows.", imageAlt: "Logo do Workstation Kit" },
@@ -63,7 +63,7 @@ const translations = {
     projects: {
       eyebrow: "MY BEST PROJECTS", title: "Selected <em>projects</em>",
       intro: "A selection of work representing my practice in software development, digital products and interfaces.",
-      imagePending: "Project image coming soon", futureImage: "Reserved space for a future project", linkPending: "Link coming soon ↗", caseLink: 'Open case <span class="case-arrow" aria-hidden="true">↗</span>',
+      imagePending: "Project image coming soon", futureImage: "Reserved space for a future project", linkPending: "In development", caseLink: 'Open case <span class="case-arrow" aria-hidden="true">↗</span>',
       tagsAria: "Technologies used",
       findall: { category: "CONFIDENTIAL PROJECT", label: "MONITORING PLATFORM", title: "FindAll", description: "A platform focused on asset monitoring and traceability, integrating IoT technologies to support the collection, processing and visualization of operational information. The project involves integration between devices and systems, with a focus on data reliability and process efficiency.", imageAlt: "FindAll platform logo", caseLink: 'Open case <span class="case-arrow" aria-hidden="true">↗</span>', cardLink: "Open the FindAll case study" },
       workstation: { category: "CONFIDENTIAL PROJECT | AUTOMATION", label: "WINDOWS DEVELOPMENT ENVIRONMENT AUTOMATION", title: "Workstation Kit", description: "PowerShell tool to automate the configuration and standardization of Windows environments.", imageAlt: "Workstation Kit logo" },
