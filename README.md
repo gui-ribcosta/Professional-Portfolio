@@ -1,36 +1,43 @@
-# Portfólio — Guilherme Ribeiro
+# Portfólio profissional de Guilherme Ribeiro
 
-Portfólio profissional estático construído apenas com HTML5, CSS3 e JavaScript puro. A interface usa uma linguagem editorial escura, detalhes roxos, grid técnico e conteúdo bilíngue em português e inglês.
+Portfólio de Guilherme Ribeiro, desenvolvedor full stack com foco em C# e .NET. O site reúne uma apresentação profissional, estudos de caso e o currículo, com navegação em português e inglês.
 
-## Como executar
+**Site publicado:** [guilherme-ribeiro-dev.vercel.app](https://guilherme-ribeiro-dev.vercel.app/)
 
-Não há dependências ou etapa de compilação. Abra `index.html` diretamente no navegador ou sirva a pasta `portfolio` com qualquer servidor estático.
+## Projetos
 
-Exemplo com Python instalado:
+| Projeto | O que você encontra |
+| --- | --- |
+| [FindAll](projetos/findall.html) | Estudo de caso sobre monitoramento e rastreabilidade de ativos com IoT. |
+| [Workstation Kit](projetos/workstation.html) | Estudo de caso sobre automação da configuração de ambientes Windows com PowerShell. |
+| [FlowFin](https://guilherme-ribeiro-dev.vercel.app/#projetos) | Apresentação do aplicativo full stack de finanças pessoais, com .NET, React e TypeScript. O estudo de caso está em desenvolvimento. |
+
+## Executar localmente
+
+O site usa HTML, CSS e JavaScript puro. Abra `index.html` no navegador ou, com Python 3 instalado, execute na raiz do repositório:
 
 ```bash
-cd portfolio
 python -m http.server 8000
 ```
 
-Depois, acesse `http://localhost:8000`.
+Acesse [localhost:8000](http://localhost:8000/).
 
 ## Estrutura
 
-- `index.html`: estrutura semântica e conteúdo da página.
-- `sobre.html`: página editorial independente de apresentação pessoal, com conteúdo bilíngue.
-- `projetos/findall.html`: estudo de caso conceitual do FindAll, com navegação própria e conteúdo em nível público.
-- `css/style.css`: variáveis visuais, layout, responsividade e animações.
-- `js/script.js`: menu mobile, ano do rodapé e alternância PT/EN.
-- `assets/images/`: espaço reservado para imagens futuras.
+```text
+.
+├── index.html          # Página inicial, projetos, contato e currículo
+├── sobre.html          # Trajetória, formação e competências
+├── projetos/           # Páginas dos estudos de caso
+├── css/style.css       # Estilos, responsividade e animações
+├── js/script.js        # Navegação, interações e traduções PT/EN
+└── assets/
+    ├── files/          # Currículo em PDF
+    └── images/         # Imagens do site e de compartilhamento
+```
 
-## Como editar
+## Manutenção e publicação
 
-1. Atualize textos e seções no `index.html` e as respectivas traduções no objeto `translations` em `js/script.js`.
-2. Ajuste cores e medidas pelas variáveis no início de `css/style.css`.
-3. Para adicionar canais de contato, substitua o destino do botão na seção `#contato` por um endereço real ou link confirmado.
-4. Imagens futuras podem ser colocadas em `assets/images/`, sem tornar o carregamento delas obrigatório para o conteúdo principal.
+Ao editar um texto, atualize o HTML em português e as entradas correspondentes no objeto `translations` em `js/script.js`. Os atributos `data-i18n` associam os elementos às traduções. O botão de currículo da página inicial aponta para o PDF em `assets/files/`.
 
-## Estudo de caso FindAll
-
-O card principal de FindAll aponta para `projetos/findall.html`. A página usa uma composição SVG abstrata própria em vez de telas ou imagens internas, mantendo o projeto em nível conceitual para preservar a confidencialidade. Os textos bilíngues do case ficam no objeto `translations.caseStudy` em `js/script.js`.
+Na Vercel, a raiz do repositório é a raiz do site. A publicação é estática e dispensa instalação de dependências ou compilação. Se o domínio mudar, atualize as URLs canônicas e os metadados Open Graph das quatro páginas.
