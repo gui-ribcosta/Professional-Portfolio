@@ -1,7 +1,9 @@
 const translations = {
   pt: {
-    menuLabel: "Abrir menu",
+    menuLabel: "Menu principal",
+    skipLabel: "Ir para o conteúdo",
     brandLabel: "GR, início",
+    socialLabel: "Redes e contato",
     navigationLabel: "Navegação principal",
     languageSelectorLabel: "Seleção de idioma",
     language: { pt: "Mudar idioma para português", en: "Mudar idioma para inglês", ptTitle: "Português", enTitle: "English" },
@@ -25,7 +27,7 @@ const translations = {
     projects: {
       eyebrow: "MEUS MELHORES PROJETOS", title: "Projetos <em>selecionados</em>",
       intro: "Alguns dos trabalhos que representam minha atuação em desenvolvimento de software, produto digital e interfaces.",
-      imagePending: "Imagem do projeto em breve", futureImage: "Espaço reservado para novo projeto", linkPending: "Em desenvolvimento", caseLink: 'Abrir case <span class="case-arrow" aria-hidden="true">↗</span>',
+      coverPending: "EM BREVE...", imagePending: "Imagem do projeto em breve", futureImage: "Espaço reservado para novo projeto", linkPending: "Em desenvolvimento", caseLink: 'Abrir case <span class="case-arrow" aria-hidden="true">↗</span>',
       tagsAria: "Tecnologias utilizadas",
       findall: { category: "PROJETO CONFIDENCIAL", label: "PLATAFORMA DE MONITORAMENTO", title: "FindAll", description: "Plataforma voltada ao monitoramento e à rastreabilidade de ativos, integrando tecnologias de IoT para apoiar a coleta, o processamento e a visualização de informações operacionais. O projeto envolve integração entre dispositivos e sistemas, com foco na confiabilidade dos dados e na eficiência dos processos.", imageAlt: "Logo da plataforma FindAll", caseLink: 'Abrir case <span class="case-arrow" aria-hidden="true">↗</span>', cardLink: "Abrir estudo de caso do FindAll" },
       workstation: { category: "PROJETO CONFIDENCIAL | AUTOMAÇÃO", label: "AUTOMAÇÃO DE AMBIENTE WINDOWS", title: "Workstation Kit", description: "Ferramenta em PowerShell para automatizar a configuração e padronização de ambientes Windows.", imageAlt: "Logo do Workstation Kit" },
@@ -39,8 +41,10 @@ const translations = {
     footer: { rights: "Guilherme Ribeiro", role: "Software Engineer", quote: "“Tecnologia é qualquer coisa que não<br>existia quando você nasceu.”", reserved: "Todos os direitos reservados.", back: "Voltar ao topo", instagramUnavailable: "Instagram indisponível: adicione o perfil real.", whatsappUnavailable: "WhatsApp indisponível: adicione o número real.", emailUnavailable: "E-mail indisponível: adicione o endereço real." }
   },
   en: {
-    menuLabel: "Open menu",
+    menuLabel: "Main menu",
+    skipLabel: "Skip to content",
     brandLabel: "GR, home",
+    socialLabel: "Social links and contact",
     navigationLabel: "Main navigation",
     languageSelectorLabel: "Language selection",
     language: { pt: "Switch language to Portuguese", en: "Switch language to English", ptTitle: "Português", enTitle: "English" },
@@ -64,7 +68,7 @@ const translations = {
     projects: {
       eyebrow: "MY BEST PROJECTS", title: "Selected <em>projects</em>",
       intro: "A selection of work representing my practice in software development, digital products and interfaces.",
-      imagePending: "Project image coming soon", futureImage: "Reserved space for a future project", linkPending: "In development", caseLink: 'Open case <span class="case-arrow" aria-hidden="true">↗</span>',
+      coverPending: "COMING SOON...", imagePending: "Project image coming soon", futureImage: "Reserved space for a future project", linkPending: "In development", caseLink: 'Open case <span class="case-arrow" aria-hidden="true">↗</span>',
       tagsAria: "Technologies used",
       findall: { category: "CONFIDENTIAL PROJECT", label: "MONITORING PLATFORM", title: "FindAll", description: "A platform focused on asset monitoring and traceability, integrating IoT technologies to support the collection, processing and visualization of operational information. The project involves integration between devices and systems, with a focus on data reliability and process efficiency.", imageAlt: "FindAll platform logo", caseLink: 'Open case <span class="case-arrow" aria-hidden="true">↗</span>', cardLink: "Open the FindAll case study" },
       workstation: { category: "CONFIDENTIAL PROJECT | AUTOMATION", label: "WINDOWS DEVELOPMENT ENVIRONMENT AUTOMATION", title: "Workstation Kit", description: "PowerShell tool to automate the configuration and standardization of Windows environments.", imageAlt: "Workstation Kit logo" },
@@ -259,7 +263,7 @@ translations.en.aboutPage = {
 };
 
 translations.pt.workstationCase = {
-  pageTitle: "Workstation Kit | Case Study — Guilherme Ribeiro",
+  pageTitle: "Workstation Kit | Estudo de caso — Guilherme Ribeiro",
   openingEyebrow: "ESTUDO DE CASO · WORKSTATION KIT",
   openingAlt: "Apresentação do projeto Workstation Kit",
   aboutEyebrow: "SOBRE O PROJETO",
@@ -374,16 +378,23 @@ translations.en.workstationCase = {
   back: "Back to homepage"
 };
 
+translations.pt.caseStudy.pageTitle = "FindAll | Estudo de caso — Guilherme Ribeiro";
+translations.en.caseStudy.pageTitle = "FindAll | Case Study — Guilherme Ribeiro";
+translations.pt.projects.findall.caseLinkLabel = "Abrir case do FindAll";
+translations.en.projects.findall.caseLinkLabel = "Open case study for FindAll";
+translations.pt.projects.workstation.cardLink = "Abrir case do Workstation Kit";
+translations.en.projects.workstation.cardLink = "Open case study for Workstation Kit";
+
 const getNestedValue = (object, path) => path.split(".").reduce((value, key) => value?.[key], object);
 const navigationLinks = [...document.querySelectorAll(".main-nav a")];
-const navigationSections = navigationLinks
+const homeLinks = navigationLinks.filter((link) => link.getAttribute("href").startsWith("#"));
+const navigationSections = homeLinks
   .map((link) => {
     const url = new URL(link.href, document.baseURI);
     const section = url.hash ? document.querySelector(url.hash) : null;
     return section ? { link, section } : null;
   })
   .filter(Boolean);
-let pendingNavigation = null;
 const setActiveLink = (activeLink) => {
   navigationLinks.forEach((link) => {
     const isActive = link === activeLink;
@@ -399,7 +410,6 @@ const setHomeNavigationActive = () => {
 };
 const updateActiveNavigationFromScroll = () => {
   if (!navigationSections.length) return;
-  if (pendingNavigation) return;
   const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-height")) || 72;
   const anchorLine = headerHeight + 50;
   if (window.scrollY <= 15) {
@@ -426,6 +436,8 @@ const updateActiveNavigationFromScroll = () => {
 };
 const applyLanguage = (language) => {
   const dictionary = translations[language];
+  const description = document.querySelector('meta[name="description"]');
+  if (description) description.content = description.getAttribute("data-description-" + language);
   document.documentElement.lang = language === "pt" ? "pt-BR" : "en";
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     const value = getNestedValue(dictionary, element.dataset.i18n) ?? dictionary[element.dataset.i18n];
@@ -448,50 +460,47 @@ const applyLanguage = (language) => {
   document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
     element.setAttribute("alt", getNestedValue(dictionary, element.dataset.i18nAlt));
   });
+  document.querySelectorAll("[data-i18n-tooltip]").forEach((element) => {
+    element.dataset.tooltip = getNestedValue(dictionary, element.dataset.i18nTooltip);
+  });
   document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
     element.setAttribute("aria-label", getNestedValue(dictionary, element.dataset.i18nAria));
   });
-  localStorage.setItem("portfolio-language", language);
+  try {
+    localStorage.setItem("portfolio-language", language);
+  } catch {
+    // Language switching remains available when storage is blocked.
+  }
   if (navigationSections.length) updateActiveNavigationFromScroll();
 };
 
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.querySelector(".main-nav");
 if (menuToggle && mainNav) {
-  menuToggle.addEventListener("click", () => {
-    const isOpen = mainNav.classList.toggle("is-open");
-    menuToggle.setAttribute("aria-expanded", String(isOpen));
-  });
+  const setMenuOpen = (open) => {
+    mainNav.classList.toggle("is-open", open);
+    menuToggle.setAttribute("aria-expanded", String(open));
+  };
+  menuToggle.addEventListener("click", () => setMenuOpen(!mainNav.classList.contains("is-open")));
   mainNav.addEventListener("click", (event) => {
-    const link = event.target instanceof Element ? event.target.closest("a") : null;
-    if (!link) return;
-    const url = new URL(link.href, document.baseURI);
-    const hash = url.hash;
-    const target = hash ? document.querySelector(hash) : null;
-    const isSamePage = url.origin === window.location.origin && url.pathname.replace(/\/index\.html$/, "/") === window.location.pathname.replace(/\/index\.html$/, "/");
-
-    mainNav.classList.remove("is-open");
-    menuToggle.setAttribute("aria-expanded", "false");
-
-    if (isSamePage && target && hash) {
-      event.preventDefault();
-      pendingNavigation = { link, section: target };
-      setActiveLink(link);
-      target.scrollIntoView({ behavior: "smooth" });
-      if (history.pushState) {
-        history.pushState(null, "", hash);
-      } else {
-        window.location.hash = hash;
-      }
-      setTimeout(() => {
-        pendingNavigation = null;
-        updateActiveNavigationFromScroll();
-      }, 600);
+    if (event.target.closest("a")) setMenuOpen(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && mainNav.classList.contains("is-open")) {
+      setMenuOpen(false);
+      menuToggle.focus();
     }
   });
+  const mobileMenu = window.matchMedia("(max-width: 640px)");
+  mobileMenu.addEventListener("change", () => {
+    const restoreFocus = mobileMenu.matches && mainNav.contains(document.activeElement);
+    setMenuOpen(false);
+    if (restoreFocus) menuToggle.focus();
+  });
 }
-let scrollUpdateFrame = 0;
+
 if (navigationSections.length) {
+  let scrollUpdateFrame = 0;
   window.addEventListener("scroll", () => {
     if (scrollUpdateFrame) return;
     scrollUpdateFrame = window.requestAnimationFrame(() => {
@@ -499,60 +508,11 @@ if (navigationSections.length) {
       updateActiveNavigationFromScroll();
     });
   }, { passive: true });
-  window.addEventListener("hashchange", () => {
-    const id = window.location.hash.slice(1);
-    if (id) {
-      const target = document.getElementById(id);
-      if (target) {
-        const matchingLink = navigationLinks.find((link) => {
-          const u = new URL(link.href, document.baseURI);
-          return u.hash === `#${id}`;
-        });
-        if (matchingLink) setActiveLink(matchingLink);
-      }
-    } else {
-      updateActiveNavigationFromScroll();
-    }
-  });
-  const cancelPendingNavigation = () => {
-    if (!pendingNavigation) return;
-    pendingNavigation = null;
-    updateActiveNavigationFromScroll();
-  };
-  window.addEventListener("wheel", cancelPendingNavigation, { passive: true });
-  window.addEventListener("touchstart", cancelPendingNavigation, { passive: true });
-  window.addEventListener("pointerdown", cancelPendingNavigation, { passive: true });
-  window.addEventListener("keydown", (event) => {
-    if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) cancelPendingNavigation();
-  });
-  if (window.location.hash) {
-    const id = window.location.hash.slice(1);
-    const target = document.getElementById(id);
-    if (target) {
-      const matchingLink = navigationLinks.find((link) => {
-        const u = new URL(link.href, document.baseURI);
-        return u.hash === `#${id}`;
-      });
-      setTimeout(() => {
-        target.scrollIntoView({ behavior: "smooth" });
-        if (matchingLink) setActiveLink(matchingLink);
-      }, 150);
-    } else {
-      setHomeNavigationActive();
-    }
-  } else {
-    setHomeNavigationActive();
-  }
+  window.addEventListener("hashchange", updateActiveNavigationFromScroll);
+  window.addEventListener("pageshow", updateActiveNavigationFromScroll);
 }
 document.querySelectorAll("[data-language]").forEach((button) => {
   button.addEventListener("click", () => applyLanguage(button.dataset.language));
-});
-const backToTopButtons = document.querySelectorAll(".back-to-top");
-backToTopButtons.forEach((button) => {
-  button.addEventListener("click", (event) => {
-    event.preventDefault();
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  });
 });
 let activeJourneyCard = null;
 let journeyInitialized = false;
@@ -616,17 +576,18 @@ initJourney();
 const revealItems = [...document.querySelectorAll(".about-reveal")];
 if (revealItems.length) {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reducedMotion || !("IntersectionObserver" in window)) {
-    revealItems.forEach((item) => item.classList.add("is-visible"));
-  } else {
+  if (!reducedMotion && "IntersectionObserver" in window) {
     const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
+        entry.target.classList.remove("is-pending");
         observer.unobserve(entry.target);
       });
     }, { threshold: .12 });
-    revealItems.forEach((item) => revealObserver.observe(item));
+    revealItems.forEach((item) => {
+      item.classList.add("is-pending");
+      revealObserver.observe(item);
+    });
   }
 }
 
@@ -773,4 +734,10 @@ const initTooltips = () => {
 };
 
 initTooltips();
-applyLanguage(localStorage.getItem("portfolio-language") || "pt");
+let savedLanguage;
+try {
+  savedLanguage = localStorage.getItem("portfolio-language");
+} catch {
+  // Use the default language when storage is blocked.
+}
+applyLanguage(savedLanguage === "en" ? "en" : "pt");
